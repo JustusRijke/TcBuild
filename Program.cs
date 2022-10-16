@@ -1,28 +1,25 @@
 ﻿string filename = "D:/Git repos/TcCliTools/tests/resources/LibA/LibA.sln";
-// string library_name = "LibA";
+string progID = "TcXaeShell.DTE.15.0";
 
-Type? type = System.Type.GetTypeFromProgID("TcXaeShell.DTE.15.0");
-_ = type ?? throw new ArgumentException("TcXaeShell not found");
-
-MessageFilter.Register();
-
-EnvDTE80.DTE2? dte = (EnvDTE80.DTE2?)System.Activator.CreateInstance(type);
-_ = dte ?? throw new ArgumentException("Failed to open TcXaeShell");
-
-dte.SuppressUI = false;
-dte.MainWindow.Visible = true;
-EnvDTE.Solution sln = dte.Solution;
-sln.Open(filename);
-
-Console.WriteLine(sln.Projects.GetType());
-foreach (EnvDTE.Project project in sln.Projects)
+for (int i = 1; i <= 10; i++)
 {
-    Console.WriteLine(project.Name);
+    Type type = Type.GetTypeFromProgID(progID) ?? throw new ArgumentException($"Couldn't find program {progID}");
+    EnvDTE80.DTE2 dte = (EnvDTE80.DTE2)Activator.CreateInstance(type) ?? throw new ArgumentException($"Failed to create instance of {progID}");
+
+    using (MessageFilter messageFilter = new MessageFilter())
+    {
+
+        dte.SuppressUI = false;
+        dte.MainWindow.Visible = true;
+        EnvDTE.Solution sln = dte.Solution;
+        sln.Open(filename);
+
+        foreach (EnvDTE.Project project in sln.Projects)
+        {
+            Console.WriteLine(project.Name);
+        }
+
+        dte.Quit();
+    }
+    Console.WriteLine($"Done ({i})");
 }
-
-dte.Quit();
-
-MessageFilter.Revoke();
-
-Console.WriteLine("Done");
-
