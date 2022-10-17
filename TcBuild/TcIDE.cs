@@ -6,6 +6,20 @@ public class TcIDE : IDisposable
     private EnvDTE80.DTE2 dte;
     private MessageFilter messageFilter;
     private string progID = "TcXaeShell.DTE.15.0";
+    private List<EnvDTE80.ErrorItem> _errorItems = new List<EnvDTE80.ErrorItem> { };
+
+    public List<EnvDTE80.ErrorItem> BuildErrors
+    {
+        get { return _errorItems.FindAll(item => item.ErrorLevel == EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh); }
+    }
+    public List<EnvDTE80.ErrorItem> BuildWarnings
+    {
+        get { return _errorItems.FindAll(item => item.ErrorLevel == EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelMedium); }
+    }
+    public List<EnvDTE80.ErrorItem> BuildMessages
+    {
+        get { return _errorItems.FindAll(item => item.ErrorLevel == EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelLow); }
+    }
 
     public TcIDE()
     {
@@ -41,16 +55,24 @@ public class TcIDE : IDisposable
     }
 
 
-    public void OpenSolution(string path)
+    public bool Build(string path)
     {
+        path = Path.GetFullPath(path).Replace("\\", "/");
         EnvDTE.Solution sln = dte.Solution;
         sln.Open(path);
+        EnvDTE.SolutionBuild slnBuild = sln.SolutionBuild;
+        slnBuild.Clean(true);
+        slnBuild.Build(true);
+        SpinWait.SpinUntil(() => slnBuild.BuildState == EnvDTE.vsBuildState.vsBuildStateDone);
 
-        // foreach (EnvDTE.Project project in sln.Projects)
-        // {
-        //     Console.WriteLine(project.Name);
-        // }
+        // Capture build output
+        EnvDTE80.ErrorItems errorItems = dte.ToolWindows.ErrorList.ErrorItems;
+        for (int i = 1; i <= errorItems.Count; i++) _errorItems.Add(errorItems.Item(i));
 
-        Console.WriteLine("Done");
+        return (BuildErrors.Count == 0);
     }
 }
+// foreach (EnvDTE.Project project in sln.Projects)
+// {
+//     Console.WriteLine(project.Name);
+// }

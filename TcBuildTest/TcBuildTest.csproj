@@ -23,5 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../TcBuild/TcBuild.csproj" />
-  </ItemGroup>
+    <None Include="./resources/**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>  
 </Project>
