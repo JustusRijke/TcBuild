@@ -9,9 +9,12 @@ public class Test_TcIDE
     {
         string filename = "D:/Git repos/TcCliTools/tests/resources/LibA/LibA.sln";
 
-        using (TcIDE ide = new TcIDE())
+        for (int i = 1; i <= 100; i++)
         {
-            ide.OpenSolution(filename);
+            using (TcIDE ide = new TcIDE())
+            {
+                ide.OpenSolution(filename);
+            }
         }
     }
 }

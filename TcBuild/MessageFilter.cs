@@ -31,7 +31,7 @@ public class MessageFilter : IOleMessageFilter
     [DllImport("Ole32.dll")]
     static extern int CoRegisterMessageFilter(IOleMessageFilter newFilter, out IOleMessageFilter oldFilter);
 
-    private IOleMessageFilter oldFilter;
+    private IOleMessageFilter? oldFilter;
 
     public void Register()
     {
@@ -41,7 +41,9 @@ public class MessageFilter : IOleMessageFilter
     public void Revoke()
     {
         IOleMessageFilter dummy;
+#pragma warning disable CS8604
         MessageFilter.CoRegisterMessageFilter(this.oldFilter, out dummy);
+#pragma warning restore CS8604
     }
 
     // Handle incoming thread requests.
