@@ -51,5 +51,17 @@ public class Test_TcIDE
             Assert.True(ide.InstallLibrary(filename, "Library", "SomeLibrary", "SomeLibrary.library"));
         }
     }
+
+    [Fact]
+    public void Test_InstallNotALibrary()
+    {
+        string filename = "./resources/NotAlibrary/Library.sln";
+
+        using (TcIDE ide = new TcIDE())
+        {
+            ApplicationException exc = Assert.Throws<ApplicationException>(() => ide.InstallLibrary(filename, "Library", "SomeLibrary", "SomeLibrary.library"));
+            Assert.Equal("The specified library is not a managed library.\r\n(Reason: \'Title\' not specified.)", exc.Message);
+        }
+    }
 }
 

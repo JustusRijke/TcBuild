@@ -28,9 +28,6 @@ public class TcIDE : IDisposable
 
         Type type = Type.GetTypeFromProgID(progID) ?? throw new ArgumentException($"Couldn't find program {progID}");
         dte = (EnvDTE80.DTE2?)Activator.CreateInstance(type) ?? throw new ArgumentException($"Failed to create instance of {progID}");
-
-        dte.SuppressUI = false;
-        dte.MainWindow.Visible = true;
     }
 
     // Public implementation of Dispose pattern callable by consumers.
