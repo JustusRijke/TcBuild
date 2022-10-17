@@ -26,35 +26,22 @@ interface IOleMessageFilter
     int RetryRejectedCall(IntPtr hTaskCallee, int dwTickCount, int dwRejectType);
 }
 
-public class MessageFilter : IDisposable, IOleMessageFilter
+public class MessageFilter : IOleMessageFilter
 {
     [DllImport("Ole32.dll")]
     static extern int CoRegisterMessageFilter(IOleMessageFilter newFilter, out IOleMessageFilter oldFilter);
 
-    // To detect redundant calls
-    private bool _disposedValue;
     private IOleMessageFilter oldFilter;
 
-    internal MessageFilter()
+    public void Register()
     {
         MessageFilter.CoRegisterMessageFilter(this, out this.oldFilter);
     }
 
-    // Public implementation of Dispose pattern callable by consumers.
-    public void Dispose() => Dispose(true);
-
-    // Protected implementation of Dispose pattern.
-    protected virtual void Dispose(bool disposing)
+    public void Revoke()
     {
-        if (!_disposedValue)
-        {
-            if (disposing)
-            {
-                IOleMessageFilter dummy;
-                MessageFilter.CoRegisterMessageFilter(this.oldFilter, out dummy);
-            }
-            _disposedValue = true;
-        }
+        IOleMessageFilter dummy;
+        MessageFilter.CoRegisterMessageFilter(this.oldFilter, out dummy);
     }
 
     // Handle incoming thread requests.
