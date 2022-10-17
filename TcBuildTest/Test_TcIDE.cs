@@ -40,4 +40,16 @@ public class Test_TcIDE
             Assert.NotEmpty(ide.BuildErrors);
         }
     }
+
+    [Fact]
+    public void Test_InstallLibrary()
+    {
+        string filename = "./resources/Library/Library.sln";
+
+        using (TcIDE ide = new TcIDE())
+        {
+            Assert.True(ide.InstallLibrary(filename, "Library", "SomeLibrary", "SomeLibrary.library"));
+        }
+    }
 }
+
