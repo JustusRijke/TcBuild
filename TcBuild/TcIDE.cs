@@ -8,6 +8,11 @@ public class TcIDE : IDisposable
     private string progID = "TcXaeShell.DTE.15.0";
     private List<EnvDTE80.ErrorItem> _errorItems = new List<EnvDTE80.ErrorItem> { };
 
+    public List<EnvDTE80.ErrorItem> ErrorItems
+    {
+        get { return _errorItems; }
+    }
+
     public List<EnvDTE80.ErrorItem> BuildErrors
     {
         get { return _errorItems.FindAll(item => item.ErrorLevel == EnvDTE80.vsBuildErrorLevel.vsBuildErrorLevelHigh); }
@@ -71,7 +76,20 @@ public class TcIDE : IDisposable
         SpinWait.SpinUntil(() => slnBuild.BuildState == EnvDTE.vsBuildState.vsBuildStateDone);
 
         // Capture build output
-        EnvDTE80.ErrorItems errorItems = dte.ToolWindows.ErrorList.ErrorItems;
+        EnvDTE80.ErrorItems errorItems;
+        try
+        {
+            // First try it the hard way, but which leads to nicely ordered error items
+            EnvDTE.Window window = this.dte.Windows.Item(EnvDTE80.WindowKinds.vsWindowKindErrorList);
+            EnvDTE80.ErrorList selection = (EnvDTE80.ErrorList)window.Selection;
+            errorItems = selection.ErrorItems;
+        }
+        catch (System.Exception)
+        {
+            // If that didn't work, do it the traditional way
+            errorItems = dte.ToolWindows.ErrorList.ErrorItems;
+        }
+
         for (int i = 1; i <= errorItems.Count; i++) _errorItems.Add(errorItems.Item(i));
 
         // Return true on successful build
@@ -105,7 +123,3 @@ public class TcIDE : IDisposable
         return true;
     }
 }
-// foreach (EnvDTE.Project project in sln.Projects)
-// {
-//     Console.WriteLine(project.Name);
-// }
