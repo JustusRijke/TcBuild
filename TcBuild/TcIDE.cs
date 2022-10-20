@@ -1,4 +1,9 @@
-﻿namespace TcBuild;
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Threading;
+
+namespace TcBuild;
 
 public class TcIDE : IDisposable
 {
@@ -32,7 +37,7 @@ public class TcIDE : IDisposable
         messageFilter.Register();
 
         Type type = Type.GetTypeFromProgID(progID) ?? throw new ArgumentException($"Couldn't find program {progID}");
-        dte = (EnvDTE80.DTE2?)Activator.CreateInstance(type) ?? throw new ArgumentException($"Failed to create instance of {progID}");
+        dte = (EnvDTE80.DTE2)Activator.CreateInstance(type) ?? throw new ArgumentException($"Failed to create instance of {progID}");
     }
 
     // Public implementation of Dispose pattern callable by consumers.
@@ -102,7 +107,7 @@ public class TcIDE : IDisposable
         EnvDTE.Solution sln = OpenSolution(slnPath);
 
         // Find project
-        EnvDTE.Project? project = null;
+        EnvDTE.Project project = null;
         foreach (EnvDTE.Project _project in sln.Projects)
         {
             if (_project.Name == projectName)

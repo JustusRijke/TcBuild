@@ -1,71 +1,63 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TcBuild;
-using Xunit.Abstractions;
 
-namespace TcBuildTest;
-
-public class Test_TcIDE
+namespace TcBuildTest
 {
-    ITestOutputHelper testConsole;
-
-    public Test_TcIDE(ITestOutputHelper output)
+    [TestClass]
+    public class Test_TcIDE
     {
-        // NOTE: running the tests using:
-        // dotnet test -l "console;verbosity=detailed"
-        // will show output of testConsole.WriteLine() 
-        this.testConsole = output;
-    }
-
-    [Fact]
-    public void Test_Build()
-    {
-        // NOTE: RPC_E_SERVERCALL_RETRYLATER is thrown when path is wrong, at EnvDTE80.DTE2.Quit()
-        string filename = "./resources/EmptyProject/EmptyProject.sln";
-        using (TcIDE ide = new TcIDE())
+        [TestMethod]
+        public void Test_Build()
         {
-            Assert.True(ide.Build(filename));
-            Assert.Empty(ide.BuildErrors);
+            // NOTE: RPC_E_SERVERCALL_RETRYLATER is thrown when path is wrong, at EnvDTE80.DTE2.Quit()
+            string filename = "./resources/EmptyProject/EmptyProject.sln";
+            using (TcIDE ide = new TcIDE())
+            {
+                Assert.IsTrue(ide.Build(filename));
+                Assert.IsTrue(ide.BuildErrors.Count==0);
+            }
+        }
+
+        [TestMethod]
+        public void Test_BuildBroken()
+        {
+            string filename = "./resources/BrokenProject/BrokenProject.sln";
+
+            using (TcIDE ide = new TcIDE())
+            {
+                Assert.IsFalse(ide.Build(filename));
+                Assert.IsFalse(ide.BuildErrors.Count == 0);
+            }
+        }
+
+        [TestMethod]
+        public void Test_InstallLibrary()
+        {
+            string prjFilename = "./resources/Library/Library.sln";
+            string libFilename = "./SomeLibrary.library";
+
+            using (TcIDE ide = new TcIDE())
+            {
+                Assert.IsTrue(ide.InstallLibrary(prjFilename, "Library", "SomeLibrary", "SomeLibrary.library"));
+            }
+
+            Assert.IsTrue(System.IO.File.Exists(libFilename));
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ApplicationException))]
+        public void Test_InstallNotALibrary()
+        {
+            string filename = "./resources/NotAlibrary/Library.sln";
+
+            using (TcIDE ide = new TcIDE())
+            {
+                ide.InstallLibrary(filename, "Library", "SomeLibrary", "SomeLibrary.library");
+            }
         }
 
 
-    }
-
-    [Fact]
-    public void Test_BuildBroken()
-    {
-        string filename = "./resources/BrokenProject/BrokenProject.sln";
-
-        using (TcIDE ide = new TcIDE())
-        {
-            Assert.False(ide.Build(filename));
-            Assert.NotEmpty(ide.BuildErrors);
-        }
-    }
-
-    [Fact]
-    public void Test_InstallLibrary()
-    {
-        string prjFilename = "./resources/Library/Library.sln";
-        string libFilename = "./SomeLibrary.library";
-
-        using (TcIDE ide = new TcIDE())
-        {
-            Assert.True(ide.InstallLibrary(prjFilename, "Library", "SomeLibrary", "SomeLibrary.library"));
-        }
-
-        Assert.True(System.IO.File.Exists(libFilename));
-
-    }
-
-    [Fact]
-    public void Test_InstallNotALibrary()
-    {
-        string filename = "./resources/NotAlibrary/Library.sln";
-
-        using (TcIDE ide = new TcIDE())
-        {
-            ApplicationException exc = Assert.Throws<ApplicationException>(() => ide.InstallLibrary(filename, "Library", "SomeLibrary", "SomeLibrary.library"));
-            Assert.Equal("The specified library is not a managed library.\r\n(Reason: \'Title\' not specified.)", exc.Message);
-        }
     }
 }
-

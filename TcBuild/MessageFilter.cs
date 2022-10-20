@@ -10,6 +10,8 @@ More information:
 
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.OLE.Interop;
+using System;
+
 
 [ComImport]
 [Guid("00000016-0000-0000-C000-000000000046")]
@@ -31,7 +33,7 @@ public class MessageFilter : IOleMessageFilter
     [DllImport("Ole32.dll")]
     static extern int CoRegisterMessageFilter(IOleMessageFilter newFilter, out IOleMessageFilter oldFilter);
 
-    private IOleMessageFilter? oldFilter;
+    private IOleMessageFilter oldFilter;
 
     public void Register()
     {
