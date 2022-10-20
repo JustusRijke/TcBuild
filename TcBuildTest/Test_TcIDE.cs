@@ -44,12 +44,16 @@ public class Test_TcIDE
     [Fact]
     public void Test_InstallLibrary()
     {
-        string filename = "./resources/Library/Library.sln";
+        string prjFilename = "./resources/Library/Library.sln";
+        string libFilename = "./SomeLibrary.library";
 
         using (TcIDE ide = new TcIDE())
         {
-            Assert.True(ide.InstallLibrary(filename, "Library", "SomeLibrary", "SomeLibrary.library"));
+            Assert.True(ide.InstallLibrary(prjFilename, "Library", "SomeLibrary", "SomeLibrary.library"));
         }
+
+        Assert.True(System.IO.File.Exists(libFilename));
+
     }
 
     [Fact]
