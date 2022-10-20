@@ -10,7 +10,7 @@ CLI tool for building Beckhoff TwinCAT solutions
 ### Building a solution 
 Feedback from the compiler is shown. The prefix (`I`nfo, `W`arning, `E`rror) shows the build error level.
 
-    D:\> TcBuild build SomeSolution.sln build SomeSolution.sln
+    D:\>TcBuild build SomeSolution.sln
     I: generate global initializations ...
     I: typify code ...
     I: Generate TMC information ...
@@ -31,7 +31,7 @@ Feedback from the compiler is shown. The prefix (`I`nfo, `W`arning, `E`rror) sho
 
 Installs a library into the Library Repository (usually located at `D:\TwinCAT\3.1\Components\Plc\Managed Libraries`), and saves the library as a `.library` file.
 
-    D:\> TcBuild install Library.sln -x LibraryFoobar -p SomeLibrary
+    D:\>TcBuild install Library.sln -x LibraryFoobar -p SomeLibrary
     I: generate global initializations ...
     I: typify code ...
     etc...
@@ -60,7 +60,7 @@ Use the help function for more information on the available commands and options
 
 This also works for the miscellaneous commands:
 
-    D:\> TcBuild install --help
+    D:\>TcBuild install --help
     Description:
     Save and install a PLC project in the solution as a library.
 
