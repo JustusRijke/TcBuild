@@ -1372,12 +1372,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CC2E2DFF36B1F2087242FB79386FCA9E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_5DA8C02FA8364BFAA4093E5EEC915048"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1655,6 +1649,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_7127098F9FE81BF98B0B1F2254596203"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CC2E2DFF36B1F2087242FB79386FCA9E"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -3492,15 +3492,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TcBuild"
-        "ProductCode" = "8:{C0ADA839-DE7B-4435-B406-3AAD608832FF}"
-        "PackageCode" = "8:{D3553D88-1C14-4BC1-8938-9CE01931A5BF}"
+        "ProductCode" = "8:{EEEAF552-E543-4058-89BD-FA1662A8F249}"
+        "PackageCode" = "8:{748A08C7-086A-47B2-8C5D-0C232DA73FFC}"
         "UpgradeCode" = "8:{C25B5859-6CF5-4331-837A-F400E8EA5CAD}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.1"
         "Manufacturer" = "8:Industrial Brains B.V."
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

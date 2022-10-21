@@ -8,8 +8,9 @@ CLI tool for building Beckhoff TwinCAT solutions
 
 ## Installation
 
-Use [TcBuild_Installer.msi](https://raw.githubusercontent.com/JustusRijke/TcBuild/main/TcBuildInstaller/Release/TcBuild_Installer.msi) to install TcBuild.\
-Add the installation folder (e.g. `C:\Program Files\Industrial Brains B.V\TcBuild`) to the `PATH` environment variable to launch `TcBuild.exe` from any folder.
+Use [TcBuild_Installer.msi](https://raw.githubusercontent.com/JustusRijke/TcBuild/main/TcBuildInstaller/Release/TcBuild_Installer.msi) to install TcBuild.
+
+Tip: Add the installation folder (e.g. `C:\Program Files\Industrial Brains B.V\TcBuild`) to the `PATH` environment variable in order to launch `TcBuild.exe` from any folder.
 
 ## Examples
 
@@ -97,5 +98,6 @@ The application exit code (`echo %errorlevel%`) provides more information on the
 | 0 | Successful build |
 | 1 | Successful build, but with compile warnings |
 | 2 | Build failed due to compile errors |
-| 3 | Build failed due to an unhandled COM exception |
-| 4 | Build failed due to an unknown exception |
+| 3 | Unhandled COM exception (tricky COM issue, try again) |
+| 4 | Unknown exception |
+| 5 | Missing file |

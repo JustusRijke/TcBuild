@@ -18,33 +18,15 @@ namespace CLI
             BUILD_WARNINGS = 1,
             BUILD_ERRORS = 2,
             COM_EXCEPTION = 3,
-            UNKNOWN_EXCEPTION = 4
+            UNKNOWN_EXCEPTION = 4,
+            MISSING_FILE=5
         };
 
         static async Task<int> Main(string[] args)
         {
             int returnCode = 0;
 
-            var fileArg = new Argument<String>(
-                name: "file",
-                description: "The TwinCAT solution file (.sln)",
-                parse: result =>
-                {
-                    string filePath = result.Tokens.Single().Value;
-                    if (!File.Exists(filePath))
-                    {
-                        result.ErrorMessage = $"File \"{filePath}\" does not exist!";
-#pragma warning disable CS8603
-                        return null;
-#pragma warning restore CS8603
-                    }
-                    else
-                    {
-                        return filePath;
-                    }
-                }
-            );
-
+            var fileArg = new Argument<String>(name: "file", description: "The TwinCAT solution file (.sln)");
             var xaeProjectName = new Option<String>(new String[] { "--xaeproject", "-x" }, "The XAE project containing the PLC project.") { IsRequired = true };
             var plcProjectName = new Option<String>(new String[] { "--plcproject", "-p" }, "The PLC project to be used as a library.") { IsRequired = true };
             var libraryFilename = new Option<String>(new String[] { "--libraryfile", "-l" }, "The filename of the resulting .library file. Overwrites existing file.\nIf left empty, the PLC project name is used.");
@@ -80,6 +62,8 @@ namespace CLI
 
         private static int Build(string slnPath)
         {
+            if (!File.Exists(slnPath)) return (int)ReturnCode.MISSING_FILE;
+               
             try
             {
                 using (TcIDE ide = new TcIDE())
@@ -105,6 +89,8 @@ namespace CLI
 
         private static int InstallAndSaveAsLibrary(string slnPath, string xaeProject, string plcProject, string libraryFile)
         {
+            if (!File.Exists(slnPath)) return (int)ReturnCode.MISSING_FILE;
+
             try
             {
                 using (TcIDE ide = new TcIDE())
