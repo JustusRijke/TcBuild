@@ -3,11 +3,20 @@ CLI tool for building Beckhoff TwinCAT solutions
 
 ## Requirements
 
-[.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) or higher
+- Windows 10 x64 with [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) or higher
+- Beckhoff TwinCAT v3.1.4024 or higher, installed stand-alone (integration with Visual Studio is not tested)
+
+## Installation
+
+Use [TcBuild_Installer.msi](https://raw.githubusercontent.com/JustusRijke/TcBuild/main/TcBuildInstaller/Release/TcBuild_Installer.msi) to install TcBuild.\
+Add the installation folder (e.g. `C:\Program Files\Industrial Brains B.V\TcBuild`) to the `PATH` environment variable to launch `TcBuild.exe` from any folder.
 
 ## Examples
 
 ### Building a solution 
+
+	TcBuild build SomeSolution.sln
+
 Feedback from the compiler is shown. The prefix (`I`nfo, `W`arning, `E`rror) shows the build error level.
 
     D:\>TcBuild build SomeSolution.sln
@@ -29,6 +38,8 @@ Feedback from the compiler is shown. The prefix (`I`nfo, `W`arning, `E`rror) sho
 
 ### Installing a library
 
+    TcBuild install Library.sln -x LibraryFoobar -p SomeLibrary
+
 Installs a library into the Library Repository (usually located at `D:\TwinCAT\3.1\Components\Plc\Managed Libraries`), and saves the library as a `.library` file.
 
     D:\>TcBuild install Library.sln -x LibraryFoobar -p SomeLibrary
@@ -43,7 +54,7 @@ Note the 2 additional arguments `LibraryFoobar` and `SomeLibrary`. These point t
 
 Use the help function for more information on the available commands and options:
 
-    D:\> TcBuild --help
+    D:\>TcBuild --help
     Description:
     CLI tool for building Beckhoff TwinCAT solutions
 

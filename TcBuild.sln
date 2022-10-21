@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TcBuildInstaller", "TcBuildInstaller\TcBuildInstaller.vdproj", "{3E1C07EB-8F57-4A5C-A8D8-9C84B0EEA8D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -26,6 +28,9 @@ Global
 		{F20A489A-1619-41D9-A9FA-3547DCEF2BC1}.Debug|x64.ActiveCfg = Debug|x64
 		{F20A489A-1619-41D9-A9FA-3547DCEF2BC1}.Debug|x64.Build.0 = Debug|x64
 		{F20A489A-1619-41D9-A9FA-3547DCEF2BC1}.Release|x64.ActiveCfg = Release|x64
+		{3E1C07EB-8F57-4A5C-A8D8-9C84B0EEA8D3}.Debug|x64.ActiveCfg = Debug
+		{3E1C07EB-8F57-4A5C-A8D8-9C84B0EEA8D3}.Release|x64.ActiveCfg = Release
+		{3E1C07EB-8F57-4A5C-A8D8-9C84B0EEA8D3}.Release|x64.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
